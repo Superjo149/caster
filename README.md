@@ -7,6 +7,14 @@
 [![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.castv2-client?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=10&branchName=master)
 [![Dependency Status](https://img.shields.io/david/amilajack/castv2-client.svg)](https://david-dm.org/amilajack/castv2-client)
 
+## Goals
+
+- [ ] Migrate this repo to a monorepo architecture
+- [ ] Migrate all external dependencies to be in-house dependencies
+- [ ] Add support for [airplay](https://en.wikipedia.org/wiki/AirPlay), [upnp](https://en.wikipedia.org/wiki/Universal_Plug_and_Play)
+- [ ] Support latest version of all supported protocols
+- [ ] All tests passing
+
 ### A Chromecast client based on the new (CASTV2) protocol
 
 This module implements a Chromecast client over the new (CASTV2) protocol. A sender app for the `DefaultMediaReceiver` application is provided, as well as an `Application` base class and implementations of the basic protocols (see the `controllers` directory) that should make implementing custom senders a breeze.
