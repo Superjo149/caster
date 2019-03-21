@@ -25,22 +25,19 @@ export default class MediaController extends RequestResponseController {
 
   /**
    * Get the status
-   * @returns {Promise}
+   * @returns a promise containing the status
    */
-  getStatus() {
-    return new Promise((resolve, reject) => {
-      this.request(
-        {
-          type: 'GET_STATUS'
-        },
-        (err, response) => {
-          if (err) return reject(err);
-          const status = response.status[0];
-          this.currentSession = status;
-          return resolve(status);
-        }
-      );
-    });
+  getStatus(): Promise<string> {
+    return this
+      .request({
+        type: 'GET_STATUS'
+      })
+      .then((response) => {
+        const status = response.status[0];
+        this.currentSession = status;
+
+        return status;
+      });
   }
 
   /**
