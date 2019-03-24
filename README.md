@@ -12,10 +12,20 @@
 import server from '@cast/server';
 import ChromeCast from '@cast/client-chromecast';
 import AirPlay from '@cast/client-airplay';
+import Dlna from '@cast/client-dlna';
 
 await server({
+  subtitles: path.join(srtPath),
+  content: path.join(videoPath),
   host: '127.0.0.1',
   port: 1234,
-  clients: [ChromeCast, AirPlay]
+  clients: [
+    ChromeCast,
+    AirPlay,
+    Dlna({
+      volume: 90,
+      ...customOptions
+    })
+  ]
 });
 ```
