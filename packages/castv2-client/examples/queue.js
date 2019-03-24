@@ -5,7 +5,7 @@ import { PlatformSender, DefaultMediaReceiver } from '../src';
 async function ondeviceup(host) {
   const client = new PlatformSender();
 
-  client.on('error', (err) => {
+  client.on('error', err => {
     console.log('Error: %s', err.message);
     client.close();
     throw new Error(err);
@@ -22,7 +22,8 @@ async function ondeviceup(host) {
       activeTrackIds: [],
       playbackDuration: 2,
       media: {
-        contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/BigBuckBunnyAudio.mp4',
+        contentId:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/BigBuckBunnyAudio.mp4',
         contentType: 'audio/mpeg',
         streamType: 'BUFFERED'
       }
@@ -34,7 +35,8 @@ async function ondeviceup(host) {
       activeTrackIds: [],
       playbackDuration: 2,
       media: {
-        contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ElephantsDreamAudio.mp4',
+        contentId:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ElephantsDreamAudio.mp4',
         contentType: 'audio/mpeg',
         streamType: 'BUFFERED'
       }
@@ -46,7 +48,8 @@ async function ondeviceup(host) {
       activeTrackIds: [],
       playbackDuration: 2,
       media: {
-        contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerBlazesAudio.mp4',
+        contentId:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerBlazesAudio.mp4',
         contentType: 'audio/mpeg',
         streamType: 'BUFFERED'
       }
@@ -54,7 +57,10 @@ async function ondeviceup(host) {
   ];
 
   const player = await client.launch(DefaultMediaReceiver);
-  console.log('app "%s" launched, loading medias...', player.session.displayName);
+  console.log(
+    'app "%s" launched, loading medias...',
+    player.session.displayName
+  );
   let isDone = false;
 
   function gotStatus(status) {
@@ -82,7 +88,8 @@ async function ondeviceup(host) {
       activeTrackIds: [],
       playbackDuration: 2,
       media: {
-        contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerEscapesAudio.mp4',
+        contentId:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerEscapesAudio.mp4',
         contentType: 'audio/mpeg',
         streamType: 'BUFFERED',
         metadata: {
@@ -96,23 +103,29 @@ async function ondeviceup(host) {
   const status3 = await player.queueRemove([2], { currentItemId: 0 });
   console.log('Removed from queue');
   console.log(util.inspect(status3));
-  const status4 = await player.queueUpdate([{
-    itemId: 4,
-    autoplay: true,
-    preloadTime: 4,
-    startTime: 4,
-    activeTrackIds: [],
-    playbackDuration: 2,
-    media: {
-      contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerEscapesAudio.mp4',
-      contentType: 'audio/mpeg',
-      streamType: 'BUFFERED',
-      metadata: {
-        metadataType: 3,
-        title: 'Modified title'
+  const status4 = await player.queueUpdate(
+    [
+      {
+        itemId: 4,
+        autoplay: true,
+        preloadTime: 4,
+        startTime: 4,
+        activeTrackIds: [],
+        playbackDuration: 2,
+        media: {
+          contentId:
+            'http://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/dash/ForBiggerEscapesAudio.mp4',
+          contentType: 'audio/mpeg',
+          streamType: 'BUFFERED',
+          metadata: {
+            metadataType: 3,
+            title: 'Modified title'
+          }
+        }
       }
-    }
-  }], { currentItemId: 4 });
+    ],
+    { currentItemId: 4 }
+  );
 
   console.log('Updated item');
   console.log(util.inspect(status4));
@@ -127,8 +140,10 @@ async function ondeviceup(host) {
 }
 
 export default function findAndConnect() {
-  return new Promise(resolve => scanner((err, service) => {
-    console.log('chromecast %s running on: %s', service.name, service.data);
-    return resolve(ondeviceup(service.data));
-  }));
+  return new Promise(resolve =>
+    scanner((err, service) => {
+      console.log('chromecast %s running on: %s', service.name, service.data);
+      return resolve(ondeviceup(service.data));
+    })
+  );
 }

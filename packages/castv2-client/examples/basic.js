@@ -14,7 +14,8 @@ async function ondeviceup(host) {
   const player = await client.launch(DefaultMediaReceiver);
   const media = {
     // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
-    contentId: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
+    contentId:
+      'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
     contentType: 'video/mp4',
     streamType: 'BUFFERED', // or LIVE
 
@@ -24,13 +25,22 @@ async function ondeviceup(host) {
       metadataType: 0,
       title: 'Big Buck Bunny',
       images: [
-        { url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg' }
+        {
+          url:
+            'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'
+        }
       ]
     }
   };
 
-  player.on('status', status => console.log('status broadcast playerState=%s', status.playerState));
-  console.log('app "%s" launched, loading media %s ...', player.session.displayName, media.contentId);
+  player.on('status', status =>
+    console.log('status broadcast playerState=%s', status.playerState)
+  );
+  console.log(
+    'app "%s" launched, loading media %s ...',
+    player.session.displayName,
+    media.contentId
+  );
   const status1 = await player.load(media, {
     autoplay: true
   });
@@ -56,7 +66,7 @@ async function ondeviceup(host) {
       });
     }, 5000);
 
-    client.on('error', (err) => {
+    client.on('error', err => {
       console.log('Error: %s', err.message);
       client.close();
       reject(err);
