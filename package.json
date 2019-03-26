@@ -40,8 +40,10 @@
     "lint": "eslint --ext .ts --ext .js .",
     "test": "yarn ts && yarn lint && yarn build && yarn spec",
     "ts": "tsc",
-    "ts:dec": "yarn ts --declaration"
+    "ts:dec": "yarn ts --declaration",
+    "version": "yarn build && yarn ts:dec"
   },
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/thibauts/node-castv2-client.git"
