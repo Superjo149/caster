@@ -1,4 +1,4 @@
-import { Client } from 'castv2';
+import { Client } from '@amilajack/castv2';
 import RequestResponseController from './request-response';
 
 export default class MediaController extends RequestResponseController {

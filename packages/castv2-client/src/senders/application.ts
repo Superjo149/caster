@@ -1,4 +1,4 @@
-import { Client } from 'castv2';
+import { Client } from '@amilajack/castv2';
 import ConnectionController from '../controllers/connection';
 import Sender from './sender';
 
@@ -7,7 +7,7 @@ function randomSenderId(): string {
 }
 
 export default class Application extends Sender {
-  static APP_ID = 'CC1AD845';
+  static APP_ID: string = 'CC1AD845';
 
   public constructor(client: Client, session) {
     super(client, randomSenderId(), session.transportId);

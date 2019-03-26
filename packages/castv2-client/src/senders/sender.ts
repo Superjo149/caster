@@ -1,4 +1,4 @@
-import { Client } from 'castv2';
+import { Client } from '@amilajack/castv2';
 import { EventEmitter } from 'events';
 import Controller from '../controllers/controller';
 

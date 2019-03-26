@@ -1,5 +1,7 @@
 # caster
 
+[![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.caster?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=12&branchName=master)
+
 > ## 🛠 Status: In Development
 >
 > caster is currently in development. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.

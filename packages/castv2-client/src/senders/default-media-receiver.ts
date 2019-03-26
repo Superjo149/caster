@@ -1,4 +1,4 @@
-import { Client } from 'castv2';
+import { Client } from '@amilajack/castv2';
 import Application from './application';
 import MediaController from '../controllers/media';
 
