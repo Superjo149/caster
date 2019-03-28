@@ -1,4 +1,4 @@
-import { Client } from '@amilajack/castv2';
+import { Client } from 'castv2';
 import { EventEmitter } from 'events';
 import Controller from '../controllers/controller';
 
@@ -30,7 +30,7 @@ export default class Sender extends EventEmitter {
    * @param {Controller} controller
    * @param {*} args
    */
-  createController(Controller: Controller, ...args) {
+  createController(Controller: Controller, ...args): Controller {
     return new Controller(this.client, this.senderId, this.receiverId, ...args);
   }
 }

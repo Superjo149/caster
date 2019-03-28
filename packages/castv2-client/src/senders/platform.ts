@@ -1,4 +1,4 @@
-import { Client } from '@amilajack/castv2';
+import { Client } from 'castv2';
 import Sender from './sender';
 import ConnectionController from '../controllers/connection';
 import HeartbeatController from '../controllers/heartbeat';

@@ -1,7 +1,7 @@
 import scanner from 'chromecast-scanner';
 import { PlatformSender, DefaultMediaReceiver } from '../src';
 
-async function ondeviceup(host) {
+async function ondeviceup(host): Promise<void> {
   /**
    * Client
    * @type {PlatformSender}

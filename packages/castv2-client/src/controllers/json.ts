@@ -1,4 +1,4 @@
-import { Client } from '@amilajack/castv2';
+import { Client } from 'castv2';
 import Controller from './controller';
 
 export default class JsonController extends Controller {

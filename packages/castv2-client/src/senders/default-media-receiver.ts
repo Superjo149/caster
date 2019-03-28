@@ -1,4 +1,4 @@
-import { Client } from '@amilajack/castv2';
+import { Client } from 'castv2';
 import Application from './application';
 import MediaController from '../controllers/media';
 
@@ -7,30 +7,31 @@ export default class DefaultMediaReceiver extends Application {
 
   APP_ID: string = 'CC1AD845';
 
+  media: MediaController | undefined;
+
   constructor(client: Client, session) {
     super(client, session);
 
-    /**
-     * Media controller
-     * @type {MediaController}
-     */
     this.media = this.createController(MediaController);
-    const self = this;
-    function onDisconnect() {
-      self.emit('close');
+    const onDisconnect = () => {
+      this.emit('close');
     }
-    function onStatus(status) {
-      self.emit('status', status);
+    const onStatus = (status: string) => {
+      this.emit('status', status);
     }
-    function onClose() {
-      self.media.removeListener('disconnect', onDisconnect);
-      self.media.removeListener('status', onStatus);
-      self.media.close();
-      self.media = undefined;
+    const onClose = () => {
+      if (this.media) {
+        this.media.removeListener('disconnect', onDisconnect);
+        this.media.removeListener('status', onStatus);
+        this.media.close();
+        this.media = undefined;
+      }
     }
-    this.media.on('status', onStatus);
-    this.once('close', onClose);
-    this.media.on('disconnect', onDisconnect);
+    if (this.media) {
+      this.media.on('status', onStatus);
+      this.once('close', onClose);
+      this.media.on('disconnect', onDisconnect);
+    }
   }
 
   /**
@@ -38,7 +39,7 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   getStatus() {
-    return this.media.getStatus();
+    return this.media && this.media.getStatus();
   }
 
   /**
@@ -47,8 +48,8 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} [options = {}] - Options
    * @returns {Promise}
    */
-  load(media, options = {}) {
-    return this.media.load(media, options);
+  load(media: Object, options = {}) {
+    return this.media && this.media.load(media, options);
   }
 
   /**
@@ -56,7 +57,7 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   play() {
-    return this.media.play();
+    return this.media && this.media.play();
   }
 
   /**
@@ -64,7 +65,7 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   pause() {
-    return this.media.pause();
+    return this.media && this.media.pause();
   }
 
   /**
@@ -72,15 +73,15 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   stop() {
-    return this.media.stop();
+    return this.media && this.media.stop();
   }
 
   /**
    * Seek through the media
    * @param {number} currentTime - Time to seek to
    */
-  seek(currentTime) {
-    return this.media.seek(currentTime);
+  seek(currentTime: number) {
+    return this.media && this.media.seek(currentTime);
   }
 
   /**
@@ -90,8 +91,8 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueLoad(items, options = {}) {
-    return this.media.queueLoad(items, options);
+  queueLoad(items: Object[], options = {}) {
+    return this.media && this.media.queueLoad(items, options);
   }
 
   /**
@@ -100,8 +101,8 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueInsert(items, options = {}) {
-    return this.media.queueInsert(items, options);
+  queueInsert(items: Object[], options = {}) {
+    return this.media && this.media.queueInsert(items, options);
   }
 
   /**
@@ -110,8 +111,8 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueRemove(itemIds, options = {}) {
-    return this.media.queueRemove(itemIds, options);
+  queueRemove(itemIds: string[], options = {}) {
+    return this.media && this.media.queueRemove(itemIds, options);
   }
 
   /**
@@ -120,8 +121,8 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueReorder(itemIds, options = {}) {
-    return this.media.queueReorder(itemIds, options);
+  queueReorder(itemIds: string[], options = {}) {
+    return this.media && this.media.queueReorder(itemIds, options);
   }
 
   /**
@@ -130,7 +131,7 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueUpdate(items, options = {}) {
-    return this.media.queueUpdate(items, options);
+  queueUpdate(items: Object[], options = {}) {
+    return this.media && this.media.queueUpdate(items, options);
   }
 }
