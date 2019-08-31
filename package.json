@@ -4,9 +4,9 @@
   "description": "A Chromecast client based on the new (CASTV2) protocol",
   "author": "amilajack",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "dependencies": {
     "castv2": "~0.1.9",
