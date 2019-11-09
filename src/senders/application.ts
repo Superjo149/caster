@@ -1,4 +1,4 @@
-import { Client } from 'castv2';
+import { Client, Session } from 'castv2';
 import ConnectionController from '../controllers/connection';
 import Sender from './sender';
 
@@ -7,20 +7,25 @@ function randomSenderId(): string {
 }
 
 export default class Application extends Sender {
-  static APP_ID = 'CC1AD845';
+  static APP_ID: string = 'CC1AD845';
+  public session?: Session;
+  public connection?: ConnectionController;
 
-  public constructor(client: Client, session) {
+  public constructor(client: Client, session: Session) {
     super(client, randomSenderId(), session.transportId);
     this.session = session;
     this.connection = this.createController(ConnectionController);
+
     this.connection.connect();
     const self = this;
     function onDisconnect() {
       self.emit('close');
     }
     function onClose(): void {
-      self.connection.removeListener('disconnect', onDisconnect);
-      self.connection.close();
+      if (self.connection) {
+        self.connection.removeListener('disconnect', onDisconnect);
+        self.connection.close();
+      }
       self.connection = undefined;
       self.session = undefined;
       self.superClose();
@@ -34,7 +39,7 @@ export default class Application extends Sender {
   }
 
   close(): void {
-    this.connection.disconnect();
+    this.connection && this.connection.disconnect();
     this.emit('close');
   }
 }

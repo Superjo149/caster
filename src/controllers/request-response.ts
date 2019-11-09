@@ -1,12 +1,7 @@
 import { Client } from 'castv2';
 import JsonController from './json';
 
-interface Response {
-  requestId: number;
-  type: string;
-  reason: string;
-}
-
+type Response = any;
 export default class RequestResponseController extends JsonController {
   public lastRequestId: number;
 

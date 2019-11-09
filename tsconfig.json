@@ -7,7 +7,6 @@
     "target": "esnext",
     "allowJs": false,
     "outDir": "dist",
-    "outFile": "dist/index.d.ts",
     "declaration": true,
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
@@ -21,8 +20,16 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ]
   },
-  "include": ["src/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/*", "./types"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

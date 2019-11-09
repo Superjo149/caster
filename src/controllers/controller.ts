@@ -1,16 +1,17 @@
-import { Client } from 'castv2';
+import { Client, Channel } from 'castv2';
 import debugFactory from 'debug';
 import { EventEmitter } from 'events';
 
 const debug = debugFactory('castv2-client');
 
 export default class Controller extends EventEmitter {
+  private channel: Channel;
   constructor(
     client: Client,
     sourceId: string,
     destinationId: string,
-    namespace: string,
-    encoding: string
+    namespace?: string,
+    encoding?: string
   ) {
     super();
     this.channel = client.createChannel(

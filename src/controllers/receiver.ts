@@ -28,112 +28,81 @@ export default class ReceiverController extends RequestResponseController {
 
   /**
    * Get the status
-   * @returns {Promise}
    */
-  getStatus() {
-    return new Promise((resolve, reject) => {
-      this.request({
-        type: 'GET_STATUS'
-      })
-        .then(response => resolve(response.status))
-        .catch(err => reject(err));
+  async getStatus(): Promise<any> {
+    const response = await this.request({
+      type: 'GET_STATUS'
     });
+
+    return response.status;
   }
 
   /**
    * Get app availability
-   * @param {String|Array} appId - App ID
-   * @returns {Promise}
    */
-  getAppAvailability(appId: string | Array<string>): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const data = {
-        type: 'GET_APP_AVAILABILITY',
-        appId: Array.isArray(appId) ? appId : [appId]
-      };
-      this.request(data)
-        .then(response => resolve(response.availability))
-        .catch(err => reject(err));
+  async getAppAvailability(appId: string | Array<string>): Promise<string> {
+    const response = await this.request({
+      type: 'GET_APP_AVAILABILITY',
+      appId: Array.isArray(appId) ? appId : [appId]
     });
+
+    return response.availability;
   }
 
   /**
    * Launch an App with its ID
-   * @param appId - App ID
-   * @returns {Promise}
    */
-  launch(appId: string) {
-    return new Promise((resolve, reject) => {
-      this.request({
-        type: 'LAUNCH',
-        appId
-      })
-        .then(response => {
-          if (response.type === 'LAUNCH_ERROR')
-            return reject(
-              new Error(`Launch failed. Reason: ${response.reason}`)
-            );
-          return resolve(response.status.applications || []);
-        })
-        .catch(err => reject(err));
+  async launch(appId: string) {
+    const response = await this.request({
+      type: 'LAUNCH',
+      appId
     });
+
+    if (response.type === 'LAUNCH_ERROR')
+      throw new Error(`Launch failed. Reason: ${response.reason}`)
+
+    return response.status.applications || [];
   }
 
   /**
    * Stop a session with its ID
-   * @param sessionId - Session ID
-   * @returns {Promise}
    */
-  stop(sessionId) {
-    return new Promise((resolve, reject) => {
-      const data = {
-        type: 'STOP',
-        sessionId
-      };
-      this.request(data)
-        .then(response => resolve(response.status.applications || []))
-        .catch(err => reject(err));
+  async stop(sessionId: string) {
+    const response = await this.request({
+      type: 'STOP',
+      sessionId
     });
+
+    return response.status.applications || [];
   }
 
   /**
    * Set the volume
-   * @param {Object} options - Options
-   * @returns {Promise}
    */
-  setVolume(options: Object) {
-    return new Promise((resolve, reject) => {
-      const data = {
-        type: 'SET_VOLUME',
-        volume: options
-      };
-      this.request(data)
-        .then(response => resolve(response.status.volume || []))
-        .catch(err => reject(err));
+  async setVolume(options: Object) {
+    const response = await this.request({
+      type: 'SET_VOLUME',
+      volume: options
     });
+
+    return response.status.volume || [];
   }
 
   /**
    * Get the volume
-   * @returns {Promise}
    */
-  getVolume(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      this.getStatus()
-        .then(status => resolve(status.volume))
-        .catch(err => reject(err));
-    });
+  async getVolume(): Promise<string> {
+    const status = await this.getStatus();
+
+    return status.volume;
   }
 
   /**
    * Get the sessions
-   * @returns {Promise}
    */
-  getSessions(): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-      this.getStatus()
-        .then(status => resolve(status.applications || []))
-        .catch(err => reject(err));
-    });
+  async getSessions(): Promise<string[]> {
+    const status = await this.getStatus();
+
+    return status.applications || [];
   }
 }

@@ -1,13 +1,10 @@
 import { Client } from 'castv2';
 import { EventEmitter } from 'events';
-import Controller from '../controllers/controller';
 
 export default class Sender extends EventEmitter {
-  client: Client;
-
-  senderId: string | undefined;
-
-  receiverId: string | undefined;
+  client?: Client;
+  senderId?: string;
+  receiverId?: string;
 
   constructor(client: Client, senderId: string, receiverId: string) {
     super();
@@ -30,7 +27,11 @@ export default class Sender extends EventEmitter {
    * @param {Controller} controller
    * @param {*} args
    */
-  createController(Controller: Controller, ...args) {
+  createController<T extends any>(Controller: { new(...args: any[]): T; }, ...args: any[]): T {
+    if (!this.client || !this.senderId || !this.receiverId) {
+      throw new Error("Client may be closed")
+    }
+
     return new Controller(this.client, this.senderId, this.receiverId, ...args);
   }
 }

@@ -6,8 +6,9 @@ export default class DefaultMediaReceiver extends Application {
   static APP_ID: string = 'CC1AD845';
 
   APP_ID: string = 'CC1AD845';
+  private media: MediaController | undefined;
 
-  constructor(client: Client, session) {
+  constructor(client: Client, session: any) {
     super(client, session);
 
     /**
@@ -19,15 +20,23 @@ export default class DefaultMediaReceiver extends Application {
     function onDisconnect() {
       self.emit('close');
     }
-    function onStatus(status) {
+    function onStatus(status: string) {
       self.emit('status', status);
     }
     function onClose() {
+      if (!self.media) {
+        return;
+      }
       self.media.removeListener('disconnect', onDisconnect);
       self.media.removeListener('status', onStatus);
       self.media.close();
       self.media = undefined;
     }
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     this.media.on('status', onStatus);
     this.once('close', onClose);
     this.media.on('disconnect', onDisconnect);
@@ -38,6 +47,11 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   getStatus() {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.getStatus();
   }
 
@@ -47,7 +61,12 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} [options = {}] - Options
    * @returns {Promise}
    */
-  load(media, options = {}) {
+  load(media: any, options = {}) {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.load(media, options);
   }
 
@@ -56,6 +75,11 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   play() {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.play();
   }
 
@@ -64,6 +88,11 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   pause() {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.pause();
   }
 
@@ -72,6 +101,11 @@ export default class DefaultMediaReceiver extends Application {
    * @returns {Promise}
    */
   stop() {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.stop();
   }
 
@@ -79,7 +113,12 @@ export default class DefaultMediaReceiver extends Application {
    * Seek through the media
    * @param {number} currentTime - Time to seek to
    */
-  seek(currentTime) {
+  seek(currentTime: number) {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.seek(currentTime);
   }
 
@@ -90,7 +129,12 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueLoad(items, options = {}) {
+  queueLoad(items: any[], options = {}) {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.queueLoad(items, options);
   }
 
@@ -100,7 +144,12 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueInsert(items, options = {}) {
+  queueInsert(items: any[], options = {}) {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.queueInsert(items, options);
   }
 
@@ -110,7 +159,12 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueRemove(itemIds, options = {}) {
+  queueRemove(itemIds: string[], options = {}) {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.queueRemove(itemIds, options);
   }
 
@@ -120,7 +174,12 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueReorder(itemIds, options = {}) {
+  queueReorder(itemIds: string[], options = {}) {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.queueReorder(itemIds, options);
   }
 
@@ -130,7 +189,12 @@ export default class DefaultMediaReceiver extends Application {
    * @param {Object} options - Options
    * @returns {Promise}
    */
-  queueUpdate(items, options = {}) {
+  queueUpdate(items: any[], options = {}) {
+
+    if (!this.media) {
+      throw new Error("no media");
+    }
+
     return this.media.queueUpdate(items, options);
   }
 }

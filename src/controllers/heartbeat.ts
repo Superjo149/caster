@@ -8,6 +8,10 @@ const DEFAULT_INTERVAL = 5; // seconds
 const TIMEOUT_FACTOR = 3; // timeouts after 3 intervals
 
 export default class HeartbeatController extends JsonController {
+  private intervalValue: number;
+  private pingTimer: any;
+  private timeout: any;
+
   constructor(client: Client, sourceId: string, destinationId: string) {
     super(
       client,
@@ -19,7 +23,7 @@ export default class HeartbeatController extends JsonController {
     this.timeout = null;
     this.intervalValue = DEFAULT_INTERVAL;
     const self = this;
-    function onMessage(data) {
+    function onMessage(data: any) {
       if (data.type === 'PONG') self.emit('pong');
     }
     function onClose() {
@@ -53,7 +57,7 @@ export default class HeartbeatController extends JsonController {
     });
   }
 
-  start(intervalValue: number) {
+  start(intervalValue?: number) {
     this.intervalValue = intervalValue || this.intervalValue;
     this.ping();
   }

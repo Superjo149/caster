@@ -9,17 +9,19 @@
     "dist"
   ],
   "dependencies": {
-    "castv2": "~0.1.9",
+    "castv2": "~0.1.10",
     "chromecast-scanner": "^0.5.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/debug": "^4.1.5",
-    "@types/node": "^12.7.3",
+    "@types/events": "^3.0.0",
+    "@types/node": "^12.7.11",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "babel-core": "^7.0.0-bridge.0",
@@ -72,6 +74,14 @@
         "@babel/preset-typescript",
         {
           "allExtensions": true
+        }
+      ]
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
         }
       ]
     ]

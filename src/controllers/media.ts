@@ -2,11 +2,13 @@ import { Client } from 'castv2';
 import RequestResponseController from './request-response';
 
 export default class MediaController extends RequestResponseController {
+  private currentSession: any;
+
   constructor(client: Client, sourceId: string, destinationId: string) {
     super(client, sourceId, destinationId, 'urn:x-cast:com.google.cast.media');
     this.currentSession = null;
     const self = this;
-    function onMessage(data, broadcast) {
+    function onMessage(data: any, broadcast: any) {
       if (data.type === 'MEDIA_STATUS' && broadcast) {
         const status = data.status[0];
         if (!status) return;
@@ -46,7 +48,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Object} [options = {}]
    * @returns {Promise}
    */
-  load(media, options = {}) {
+  load(media: any, options = {}) {
     return new Promise((resolve, reject) => {
       const data = Object.assign(
         {
@@ -77,7 +79,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Object} data
    * @returns {Promise}
    */
-  sessionRequest(data) {
+  sessionRequest(data: { type: string; [key: string]: any; }) {
     return new Promise((resolve, reject) => {
       data.mediaSessionId = this.currentSession.mediaSessionId;
       this.request(data)
@@ -136,7 +138,7 @@ export default class MediaController extends RequestResponseController {
    * @param {Number} currentTime - Time to seek to
    * @returns {Promise}
    */
-  seek(currentTime) {
+  seek(currentTime: number) {
     return new Promise((resolve, reject) => {
       this.sessionRequest({
         type: 'SEEK',
