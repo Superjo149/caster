@@ -120,14 +120,14 @@ export default class PlatformSender extends Sender {
   /**
    * Join
    */
-  join<T extends any>(session: Session, Application: T): Promise<T> {
+  join<T extends any>(session: Session, application: T): Promise<T> {
     return new Promise((resolve, reject) => {
       process.nextTick(() => {
         if (!this.client) {
           return reject(new Error("Connection has been closed"));
         }
 
-        resolve(new Application(this.client, session));
+        resolve(new application(this.client, session));
       });
     });
   }
